@@ -35,3 +35,7 @@ Understanding the table
   CO2 rating	the tailpipe emissions of carbon dioxide rated on a scale from 1 (worst) to 10 (best)														
   Smog rating	the tailpipe emissions of smog-forming pollutants rated on a scale from 1 (worst) to 10    (best)														
 Thank you
+
+
+Author:
+Naval
