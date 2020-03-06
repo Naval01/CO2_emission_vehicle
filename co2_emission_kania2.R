@@ -106,9 +106,8 @@ fit.first <- lm(co2.emissions~ fuel.consumption.comb+engine.size+Cylinders+ethan
 summary(fit.first)
 
 
-
 #residual of fit.interest
-res = residuals(fit.interest)
+res = residuals(fit.first)
 #plot each residuals
 #check normality
 qqnorm(res, ylab="Residuals", xlab="Normal Scores")
