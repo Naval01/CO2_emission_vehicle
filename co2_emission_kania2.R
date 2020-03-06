@@ -114,5 +114,5 @@ qqnorm(res, ylab="Residuals", xlab="Normal Scores")
 
 
 
-
+xx
 
