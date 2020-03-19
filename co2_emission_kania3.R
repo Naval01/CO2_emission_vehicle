@@ -30,13 +30,13 @@ for (i in 1:length(colnames(df)))
 ggplot(data = df, aes(x = fuel.consumption.comb, y = co2.emissions, color = Transmission)) + 
   geom_point() +
   labs(x = "Fuel Consumption Comb (L/100km)", y = "CO2 Emissions (g/km)", title = "Transmission") 
-  
+
 
 #investigate vehicle class:  
 ggplot(data = df, aes(x = fuel.consumption.comb, y = co2.emissions, color = Vehicle.Class)) + 
   geom_point() +
   labs(x = "Fuel Consumption Comb (L/100km)", y = "CO2 Emissions (g/km)", title = "Vehicle Class")
-  
+
 
 #vehicle class categorized into cars and trucks, 2 levels, 1 dummy variable
 #cars: two-seater, minicompact, subcompact, compact, mid-size, full-size, station wagon (small & mid-size)
@@ -179,7 +179,7 @@ cv4 <- 3.008/mean(df$co2.emissions)*100
 #no trend in plot, ~95% residuals within 2s of 0
 #sd=1.442
 df$res <- residuals(fit.inter3)
-df$res[(df$res >2.884) | (df$res < -2.884)] #outside of 2s -> 44,46,78,83,93,106,119,136,147,197
+df$res[(df$res >2.884) | (df$res < -2.884)] #outside of 2s -> 44,46,93,119,136,197
 
 #filter points outside of 2s from df
 highlight.df <- df %>% 
@@ -270,21 +270,21 @@ car::vif(fit.first.removed)
 
 #fit model with interaction terms: fuel consumption, fuel type, cylinder, engine size
 fit.inter1.removed <- lm(co2.emissions~ fuel.consumption.comb + ethanol + reg.gas + diesel + Cylinders + engine.size +
-                   fuel.consumption.comb*ethanol + fuel.consumption.comb*reg.gas + fuel.consumption.comb*diesel +
-                   fuel.consumption.comb*Cylinders + fuel.consumption.comb*engine.size + 
-                   Cylinders*ethanol + Cylinders*reg.gas + Cylinders*diesel +
-                   engine.size*ethanol + engine.size*reg.gas + engine.size*diesel +
-                   Cylinders*engine.size +
-                   fuel.consumption.comb*Cylinders*ethanol +
-                   fuel.consumption.comb*Cylinders*reg.gas +
-                   fuel.consumption.comb*Cylinders*diesel +
-                   fuel.consumption.comb*engine.size*ethanol +
-                   fuel.consumption.comb*engine.size*reg.gas + 
-                   fuel.consumption.comb*engine.size*diesel +
-                   fuel.consumption.comb*Cylinders*engine.size +
-                   fuel.consumption.comb*ethanol*Cylinders*engine.size +
-                   fuel.consumption.comb*reg.gas*Cylinders*engine.size +
-                   fuel.consumption.comb*diesel*Cylinders*engine.size, data = df.removed)
+                           fuel.consumption.comb*ethanol + fuel.consumption.comb*reg.gas + fuel.consumption.comb*diesel +
+                           fuel.consumption.comb*Cylinders + fuel.consumption.comb*engine.size + 
+                           Cylinders*ethanol + Cylinders*reg.gas + Cylinders*diesel +
+                           engine.size*ethanol + engine.size*reg.gas + engine.size*diesel +
+                           Cylinders*engine.size +
+                           fuel.consumption.comb*Cylinders*ethanol +
+                           fuel.consumption.comb*Cylinders*reg.gas +
+                           fuel.consumption.comb*Cylinders*diesel +
+                           fuel.consumption.comb*engine.size*ethanol +
+                           fuel.consumption.comb*engine.size*reg.gas + 
+                           fuel.consumption.comb*engine.size*diesel +
+                           fuel.consumption.comb*Cylinders*engine.size +
+                           fuel.consumption.comb*ethanol*Cylinders*engine.size +
+                           fuel.consumption.comb*reg.gas*Cylinders*engine.size +
+                           fuel.consumption.comb*diesel*Cylinders*engine.size, data = df.removed)
 summary(fit.inter1.removed)
 #muticolinearity present
 
@@ -294,12 +294,12 @@ cv1.removed <- 1.165/mean(df.removed$co2.emissions)*100
 
 #check if cylinder is significant
 fit.inter2.removed <- lm(co2.emissions~ fuel.consumption.comb + ethanol + reg.gas + diesel + engine.size +
-                   fuel.consumption.comb*ethanol + fuel.consumption.comb*reg.gas + fuel.consumption.comb*diesel +
-                   fuel.consumption.comb*engine.size + 
-                   engine.size*ethanol + engine.size*reg.gas + engine.size*diesel +
-                   fuel.consumption.comb*engine.size*ethanol +
-                   fuel.consumption.comb*engine.size*reg.gas + 
-                   fuel.consumption.comb*engine.size*diesel, data = df.removed)
+                           fuel.consumption.comb*ethanol + fuel.consumption.comb*reg.gas + fuel.consumption.comb*diesel +
+                           fuel.consumption.comb*engine.size + 
+                           engine.size*ethanol + engine.size*reg.gas + engine.size*diesel +
+                           fuel.consumption.comb*engine.size*ethanol +
+                           fuel.consumption.comb*engine.size*reg.gas + 
+                           fuel.consumption.comb*engine.size*diesel, data = df.removed)
 
 summary(fit.inter2.removed)
 anova(fit.inter1.removed, fit.inter2.removed)
@@ -312,8 +312,8 @@ cv2.removed <- 1.169/mean(df.removed$co2.emissions)*100
 
 #check if engine size is significant
 fit.inter3.removed <- lm(co2.emissions~ fuel.consumption.comb + ethanol + reg.gas + diesel +
-                   fuel.consumption.comb*ethanol + fuel.consumption.comb*reg.gas + 
-                   fuel.consumption.comb*diesel,  data = df.removed)
+                           fuel.consumption.comb*ethanol + fuel.consumption.comb*reg.gas + 
+                           fuel.consumption.comb*diesel,  data = df.removed)
 
 summary(fit.inter3.removed)
 anova(fit.inter2.removed, fit.inter3.removed)
@@ -423,4 +423,43 @@ ggplot(data = df.removed, aes(x = fuel.consumption.comb, y = stan.resid)) +
 
 ####--------------------------------------------Using final model for prection and estimation----------------------------------------------------------------------------------------------------
 
+#ESTIMATIOM
 
+#estimated CO2 emission and confidence interval when fuel con = 8.5 and use premium gas; baseline
+predict(fit.inter3.removed, newdata= data.frame(fuel.consumption.comb = 8.5, ethanol = 0, reg.gas = 0, diesel = 0), interval = 'confidence', level = 0.95)
+##results: 198.5843, CI: 198.205 - 198.9636
+#from data: average of CO2 emissions when fuel con = 8.5 using premium gas (z) = 199.25
+
+#PREDICTION
+
+#predicted CO2 emission and predicted interval when fuel con = 5 and use premium gas; baseline
+predict(fit.inter3.removed, newdata= data.frame(fuel.consumption.comb = 5, ethanol = 0, reg.gas = 1, diesel = 0), interval = 'prediction', level = 0.95)
+##results: 117.2514, CI: 114.861 - 119.6418
+#from data: 117
+
+#predicted CO2 emission and predicted interval when fuel con = 5 and use diesel
+predict(fit.inter3.removed, newdata= data.frame(fuel.consumption.comb = 5, ethanol = 0, reg.gas = 0, diesel = 1), interval = 'prediction', level = 0.95)
+##results: 130.7646, CI: 119.6834 - 141.8458
+#from data: N/A 
+
+
+#predicted CO2 emission and predicted interval when fuel con = 12.1 and use premium gas (z)
+predict(fit.inter3.removed, newdata= data.frame(fuel.consumption.comb = 12.1, ethanol = 0, reg.gas = 0, diesel = 0), interval = 'prediction', level = 0.95)
+##results: 283.4601, CI: 281.1129 - 285.8072
+#from data: 282
+
+#predicted CO2 emission and predicted interval when fuel con = 12.1 and use ethanol
+predict(fit.inter3.removed, newdata= data.frame(fuel.consumption.comb = 12.1, ethanol = 0, reg.gas = 0, diesel = 1), interval = 'prediction', level = 0.95)
+##results: 325.9305, CI: 320.0269 - 331.8341
+#from data: 326
+
+
+#predicted CO2 emission and predicted interval when fuel con = 17.7 and use premium gas (z)
+predict(fit.inter3.removed, newdata= data.frame(fuel.consumption.comb = 17.7, ethanol = 0, reg.gas = 0, diesel = 0), interval = 'prediction', level = 0.95)
+##results: 415.489, CI: 413.0552 - 417.9228
+#from data: 413
+
+#predicted CO2 emission and predicted interval when fuel con = 17.7 and use ethanol
+predict(fit.inter3.removed, newdata= data.frame(fuel.consumption.comb = 17.7, ethanol = 1, reg.gas = 0, diesel = 0), interval = 'prediction', level = 0.95)
+##results: 294.1908, CI: 291.6961 - 296.6854
+#from data: 294
