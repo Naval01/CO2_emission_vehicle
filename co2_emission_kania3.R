@@ -101,6 +101,24 @@ fit.first <- lm(co2.emissions~ fuel.consumption.comb + ethanol + reg.gas + diese
 summary(fit.first)
 car::vif(fit.first)
 
+#corelation test between each variable
+cor.test(df$fuel.consumption.comb, df$ethanol)
+cor.test(df$fuel.consumption.comb, df$reg.gas)
+cor.test(df$fuel.consumption.comb, df$diesel)
+cor.test(df$fuel.consumption.comb, df$Cylinders)
+cor.test(df$fuel.consumption.comb, df$engine.size)
+cor.test(df$ethanol, df$reg.gas)
+cor.test(df$ethanol, df$diesel)
+cor.test(df$ethanol, df$Cylinders)
+cor.test(df$ethanol, df$engine.size)
+cor.test(df$reg.gas, df$diesel)
+cor.test(df$reg.gas, df$Cylinders)
+cor.test(df$reg.gas, df$engine.size)
+cor.test(df$diesel, df$Cylinders)
+cor.test(df$diesel, df$engine.size)
+cor.test(df$Cylinders, df$engine.size)
+
+
 #fit model with interaction terms: fuel consumption, fuel type, cylinder, engine size
 fit.inter1 <- lm(co2.emissions~ fuel.consumption.comb + ethanol + reg.gas + diesel + Cylinders + engine.size +
                    fuel.consumption.comb*ethanol + fuel.consumption.comb*reg.gas + fuel.consumption.comb*diesel +
@@ -267,6 +285,24 @@ length(df.removed$fuel.consumption.comb)
 fit.first.removed <- lm(co2.emissions~ fuel.consumption.comb + ethanol + reg.gas + diesel + Cylinders + engine.size, data = df.removed)
 summary(fit.first.removed)
 car::vif(fit.first.removed)
+
+#corelation test between each variable without outlier
+cor.test(df.removed$fuel.consumption.comb, df.removed$ethanol)
+cor.test(df.removed$fuel.consumption.comb, df.removed$reg.gas)
+cor.test(df.removed$fuel.consumption.comb, df.removed$diesel)
+cor.test(df.removed$fuel.consumption.comb, df.removed$Cylinders)
+cor.test(df.removed$fuel.consumption.comb, df.removed$engine.size)
+cor.test(df.removed$ethanol, df.removed$reg.gas)
+cor.test(df.removed$ethanol, df.removed$diesel)
+cor.test(df.removed$ethanol, df.removed$Cylinders)
+cor.test(df.removed$ethanol, df.removed$engine.size)
+cor.test(df.removed$reg.gas, df.removed$diesel)
+cor.test(df.removed$reg.gas, df.removed$Cylinders)
+cor.test(df.removed$reg.gas, df.removed$engine.size)
+cor.test(df.removed$diesel, df.removed$Cylinders)
+cor.test(df.removed$diesel, df.removed$engine.size)
+cor.test(df.removed$Cylinders, df.removed$engine.size)
+
 
 #fit model with interaction terms: fuel consumption, fuel type, cylinder, engine size
 fit.inter1.removed <- lm(co2.emissions~ fuel.consumption.comb + ethanol + reg.gas + diesel + Cylinders + engine.size +
