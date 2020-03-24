@@ -1,4 +1,5 @@
-co2_emi_sample <- read.csv("C:/Users/galz_/Desktop/DANA 4801/project/CO2_emission_vehicle/data/Sample_CO2Emission.csv")
+library("readxl")
+co2_emi_sample <- read_xlsx("C:/Users/galz_/Desktop/DANA 4810/project/CO2_emission_vehicle/data/Sample_CO2Emission.xlsx")
 attach(co2_emi_sample)
 library(ggplot2)
 library(ggrepel)
